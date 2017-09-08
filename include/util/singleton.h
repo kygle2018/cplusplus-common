@@ -1,8 +1,3 @@
-/**
-* Copyright (C) 2011-2020 Tencent Inc. All rights reserved.
-*
-* gordonliang@tencent.com
-*/
 #ifndef UTIL_SINGLETON_H_
 #define UTIL_SINGLETON_H_
 #include "util/noncopyable.h"
