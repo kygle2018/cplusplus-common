@@ -1,6 +1,5 @@
 #include "http/http_parse.h"
 #include "util/util.h"
-#include "common/uls_log.h"
 
 using namespace util;
 
@@ -108,7 +107,6 @@ namespace http {
         if (true == this->b_parsed_) {
             this->i_err_code_ = ERR_NO_HAS_PARSED;
             this->str_err_msg_ = "http is parsed.";
-            ULS_LOG(_LC_ERROR_, " http is parsed.");
             return -1;
         }
 
@@ -116,7 +114,6 @@ namespace http {
         if (found == std::string::npos) {
             this->i_err_code_ = ERR_NO_INVALID_HTTP_PKG;
             this->str_err_msg_ = "invalid http pkg.";
-            ULS_LOG(_LC_ERROR_, "invalid http pkg.");
             return -2;
         }
 
@@ -126,7 +123,6 @@ namespace http {
         if (ret != 0) {
             this->i_err_code_ = ERR_NO_INVALID_HTTP_PKG;
             this->str_err_msg_ = "invalid http pkg.";
-            ULS_LOG(_LC_ERROR_, "invalid http pkg.");
             return -3;
         }
 
@@ -137,14 +133,12 @@ namespace http {
         } else {
             this->i_err_code_ = ERR_NO_INVALID_HTTP_PKG;
             this->str_err_msg_ = "invlid http pkg type.";
-            ULS_LOG(_LC_ERROR_, "invalid http pkg type.");
             return -5;
         }
 
         if (ret != 0 ) {
             this->i_err_code_ = ERR_NO_INVALID_HTTP_PKG;
             this->str_err_msg_ = "invalid http pkg.";
-            ULS_LOG(_LC_ERROR_, "invalid http pkg.");
             return -6;
         }
         this->b_parsed_ = true;
@@ -154,12 +148,9 @@ namespace http {
 
     int CHttpParse::_ParseFirstWord(const std::string& str) 
     {
-        //ULS_LOG(_LC_DEBUG_, "first word is %s.", str.c_str());
         string http_response_eg = "HTTP/1.1";
         if (str.substr(0, 5) == "HTTP/") {          
             if (str.size() != http_response_eg.size()) {
-                //i_err_code_ = ERR_NO_INVALID_HTTP_PKG;
-                ULS_LOG(_LC_ERROR_, "invalid http pkg.");
                 return -1;
             }
 
@@ -175,8 +166,6 @@ namespace http {
             } 
             else {
                 this->i_method_type_ = HTTP_METHOD_TYPE_INVALID;
-                //i_err_code_ = ERR_NO_INVALID_HTTP_PKG;
-                ULS_LOG(_LC_ERROR_, "invalid http method type.");
                 return -2;
             }
         }
@@ -189,7 +178,6 @@ namespace http {
         if (true == this->b_parsed_) {
             this->i_err_code_ = ERR_NO_HAS_PARSED;
             this->str_err_msg_ = "http is parsed.";
-            ULS_LOG(_LC_ERROR_, "http is parsed.");
             return -1;
         }
 
@@ -197,7 +185,6 @@ namespace http {
         std::size_t found = data.find(" ");
         if ( found == std::string::npos) {
             this->i_err_code_ = ERR_NO_INVALID_REQUEST_FORMAT;
-            ULS_LOG(_LC_ERROR_, "cannot find space.");
             return -1;
         }
 
@@ -207,7 +194,6 @@ namespace http {
         found = data.find(" ", start);
         if ( found == std::string::npos) {
             this->i_err_code_ = ERR_NO_INVALID_REQUEST_FORMAT;
-            ULS_LOG(_LC_ERROR_, "cannot find space.");
             return -3;
         }
         str_url_ = data.substr(start, found - start);
@@ -216,14 +202,12 @@ namespace http {
         found = data.find("\r\n", start);
         if (found == std::string::npos) {
             this->i_err_code_ = ERR_NO_INVALID_REQUEST_FORMAT;
-            ULS_LOG(_LC_ERROR_, "invalid request format.");
             return -4;
         }
 
         string str_tmp = data.substr(start, found - start);
         if (str_tmp.substr(0, 5) != "HTTP/") {
             this->i_err_code_ = ERR_NO_INVALID_REQUEST_FORMAT;
-            ULS_LOG(_LC_ERROR_, "invalid request format.");
             return -5;
         }
 
@@ -231,7 +215,6 @@ namespace http {
         str_tmp = data.substr(start, found - start);
         if (!_ValidHttpVersion(str_tmp)) {
             this->i_err_code_ = ERR_NO_INVALID_REQUEST_FORMAT;
-            ULS_LOG(_LC_ERROR_, "invalid request format.");
             return -6;
         }
 
@@ -241,14 +224,12 @@ namespace http {
         found = data.find("\r\n\r\n", start);
         if (found == string::npos) {
             this->i_err_code_ = ERR_NO_INVALID_REQUEST_FORMAT;
-            ULS_LOG(_LC_ERROR_, "invalid request format.");
             return -7;
         }
 
         string str_headers = data.substr(start, found - start);
         int ret = _ParseHeaders(str_headers);
         if (ret != 0) {
-            ULS_LOG(_LC_ERROR_, "_ParseHeaders failed. ret:%d", ret);
             return -8;
         }
 
@@ -259,7 +240,6 @@ namespace http {
         //不管是get请求还是post请求都需要解析querystring
         ret = _ParseGetRequest();
         if (ret != 0) {
-            ULS_LOG(_LC_ERROR_,"parst querystring failed.");
             return -11;
         }
         //} 
@@ -269,12 +249,10 @@ namespace http {
             ret = _ParsePostRequst();
         }
         else {
-            ULS_LOG(_LC_ERROR_, "invalid method type: %d", i_method_type_);
             return -9;
         }
 
         if (ret != 0) {
-            ULS_LOG(_LC_ERROR_, "Parse data failed. ret: %d", ret);
             return -10;
         }
 
@@ -478,8 +456,6 @@ namespace http {
 
         found = str_url.find('/', start);
         if (found == std::string::npos) {
-            //util::Log(util::ERROR, "invalid url. url:%s\n", str_url.c_str());
-            //return -1;
             path = "/";
             host = str_url.substr(start);
         } else {
@@ -508,7 +484,6 @@ namespace http {
     {
         std::size_t found = str_res_data.find("\r\n");
         if ( found == std::string::npos) {
-            //util::Error_log(util::ERROR, "invalid response. str_res_data:%s\n", str_res_data.c_str());
             this->i_err_code_ = ERR_NO_INVALID_RESPONSE_FORMAT;
             this->str_err_msg_ = "invalid respnse. str_res_data:" + str_res_data;
             return -1;
@@ -549,7 +524,6 @@ namespace http {
 
         int i_ret = _ParseHeaders(str_headers);
         if (i_ret != 0) {
-            ULS_LOG(_LC_ERROR_, "_ParseHeaders failed. i_ret: %d", i_ret);
             return -5;
         }
 
@@ -557,14 +531,12 @@ namespace http {
 
             i_ret = _ParseChunkData();
             if (i_ret != 0) {
-                ULS_LOG(_LC_ERROR_, "_ParseChunkData failed. i_ret: %d", i_ret);
                 return -6;
             }
         }
 
         if (i_status_ != HTTP_STATUS_CODE_SUCCESS) {
-            //util::Error_log(util::ERROR, "http status not 200. str_res_data:%s\n", str_res_data.c_str());
-            //return -2;
+
         }
 
         return 0;

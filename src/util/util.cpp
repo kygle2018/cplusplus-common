@@ -65,23 +65,23 @@ namespace util {
         char *ptr,**pptr;    
         struct hostent *hptr;    
         char str[32];    
-        ptr = (char *)strDomain.data();       /* „1¤7„1¤7„1¤7„1¤7gethostbyname()„1¤7„1¤7„1¤7„1¤7„1¤70‹5„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7hptr„1¤7„1¤7 */    
+        ptr = (char *)strDomain.data();       /* ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7gethostbyname()ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½5ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7hptrï¿½1ï¿½7ï¿½1ï¿½7 */    
 
         std::vector<std::string> vecIp;    
         int iRet = 0;    
         if ((hptr = gethostbyname(ptr)) == NULL)    
         {        
             //CLIB_LOG_ERROR(g_stSysLog, "[E]uin[%u] gethostbyname error for host:%s", uiUin, ptr);        
-            return -1; /* „1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7gethostbyname„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤71 */    
+            return -1; /* ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7gethostbynameï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½71 */    
         }    
 
-        /* „1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤70‘1œZ„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7 */    
+        /* ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½1ï¿½Zï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7 */    
         switch(hptr->h_addrtype)    {        
             case AF_INET:        
             case AF_INET6:            
                 pptr=hptr->h_addr_list;            
 
-                /* „1¤7„1¤7„1¤70ï80–70‹1„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7§Ö„1¤70ö7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7§Ö„1¤7„1¤7„1¤7„1¤7„1¤7inet_ntop()„1¤7„1¤7„1¤7„1¤7 */            
+                /* ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½8ï¿½0ï¿½7ï¿½0ï¿½1ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½Ö„1ï¿½7ï¿½0ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½Ö„1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7inet_ntop()ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7 */            
                 for(;*pptr!=NULL;pptr++) {                
                     //CLIB_LOG_DEBUG(g_stSysLog,                    
                     //  "[DEBUG]address:%s\n",                    
@@ -105,8 +105,7 @@ namespace util {
             strIp = vecIp[index];
         }    
         else    
-        {        
-            //CLIB_LOG_ERROR(g_stSysLog,            "[E]uin[%u] Not Find Any Ip address!", uiUin);        
+        {               
             iRet = -1;    
         }    
 
@@ -197,12 +196,7 @@ namespace util {
                 *(p+j)=' ';
                 i++;
             }
-            /*
-            else if ( *(p+i) != '%' )
-            {
-                *(p+j)=*(p+i);
-                i++;
-            }*/
+
             else if (*(p+i)=='%' && *(p+i+1) && *(p+i+2) && isxdigit((int)*(p+i+1)) && isxdigit((int)*(p+i+2)) )
             {
                 c1 = toupper( *(p+i+1) );
@@ -260,7 +254,7 @@ namespace util {
         return 0;
     }
 
-    //„1¤7„1¤7„1¤7„1¤72016-05-19 14:00:00„1¤7„1¤70¶4„1¤7„1¤7„1¤7„1¤70µ2„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7
+    //ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½72016-05-19 14:00:00ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½4ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½2ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7
     std::string GetNowTimeFormatString()
     {
         time_t timep;
@@ -433,7 +427,7 @@ namespace util {
     }
 
     //2016-03-06 12:22:11
-    //„1¤7„1¤7„1¤7„1¤70ö5„1¤7„1¤7„1¤70¯6„1¤7„1¤7„1¤7„1¤7„1¤70µ6„1¤70µ6„1¤70µ2„1¤7„1¤70ö5„1¤7„1¤7„1¤7„1¤7„1¤7„1¤7„1¤70¶4„1¤7„1¤7„1¤7„1¤7„1¤7„1¤70Û8„1¤7„1¤7„1¤7„1¤7„1¤7-1
+    //ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½5ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½6ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½6ï¿½1ï¿½7ï¿½0ï¿½6ï¿½1ï¿½7ï¿½0ï¿½2ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½5ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½4ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½0ï¿½8ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7ï¿½1ï¿½7-1
     time_t StrToTime(const std::string& str_time) 
     {
         struct tm tm_temp = {};
@@ -539,7 +533,6 @@ namespace util {
 
         if (contentlen > (1*1024*1024))
         {
-            //Attr_API(common::EMONITOR_TOTAL_ERROR_PARAM_INVALID, 1);
             return -1;
         }
 
@@ -547,7 +540,6 @@ namespace util {
         {
             if(iBytesRecved > 1024) //protect
             {
-                //Attr_API(common::EMONITOR_TOTAL_ERROR_PARAM_INVALID, 1);
                 return -1;
             }
 
