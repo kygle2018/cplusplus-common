@@ -544,27 +544,22 @@ namespace http {
 
     int CHttpParse::_ParseChunkData() 
     {
-        //ULS_LOG(_LC_DEBUG_, "str_postdata_: %s", str_postdata_.c_str());
         string str_data, str_tmp;
         unsigned tmp_len = 0;
         size_t found = 0;
         size_t start = 0;
         
         while(1) {
-            //ULS_LOG(_LC_DEBUG_, "start: %u, found:%u", start, found);
             
             found = str_postdata_.find("\r\n", start);
             if (found == string::npos) {
                 return -1;
             }
 
-            //ULS_LOG(_LC_DEBUG_, "start: %u, found:%u", start, found);
             str_tmp = str_postdata_.substr(start, found - start);
 
-            //ULS_LOG(_LC_DEBUG_, "str_tmp: %s", str_tmp.c_str());
             sscanf(str_tmp.c_str(), "%x",  &tmp_len);
 
-            //ULS_LOG(_LC_DEBUG_, "start: %u, found:%u", start, found);
             if (str_tmp.empty()) {
                 break;
             }
@@ -575,8 +570,6 @@ namespace http {
 
             start = found + 2;
             str_data.append(str_postdata_.substr(start, tmp_len));
-
-            //ULS_LOG(_LC_DEBUG_, "start: %u, found:%u", start, found);
             
             start += tmp_len;
             found = str_postdata_.find("\r\n", start);
@@ -585,14 +578,11 @@ namespace http {
                 return -1;
             }
 
-            //ULS_LOG(_LC_DEBUG_, "start: %u, found:%u", start, found);
             start = found + 2;
         }
 
         i_content_len_ = str_data.size();
         str_postdata_ = str_data;
-
-        //ULS_LOG(_LC_DEBUG_, "str_data: %s", str_data.c_str());
 
         return 0;
     }
